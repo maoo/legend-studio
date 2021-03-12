@@ -18,7 +18,7 @@ NC='\033[0m' # No Color
 echo -e "\n" # use echo -e to interpret the backslash escapes
 echo -e "${LIGHT_BLUE}"
 echo -e "###################################################################"
-echo -e "#            ATTEMPTING TO PUBLISHING TO DOCKER HUB               #"
+echo -e "#             BUILDING LEGEND STUDIO DOCKER IMAGE                 #"
 echo -e "###################################################################"
 echo -e "${NC}"
 echo -e "\n"
