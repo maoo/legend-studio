@@ -56,6 +56,13 @@ jobs:
         with:
           username: finos
           password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build Docker image
+        if: steps.changesets.outputs.published == 'true'
+        run: yarn build:docker
+      - uses: anchore/scan-action@v2
+        with:
+          image: "finos/legend-studio"
+          fail-build: true
       - name: Publish to Docker
         # NOTE: we enforce this condition because publishing `legend-studio-app` should only be
         # attempted if other packages are published, to ensure it uses the latest tagged versions
