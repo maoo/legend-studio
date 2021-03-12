@@ -27,59 +27,6 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 DOCKER_IMAGE_VERSION=$(cat $DIR/../package.json | jq .version | jq -r)
 DOCKER_IMAGE_NAME="finos/legend-studio"
 
-# Check the current latest tag for the Docker image, if there are any, check if the current version is already
-# the latest, if so, do nothing
-DOCKER_IMAGE_TAGS=$(curl --silent https://registry.hub.docker.com/v2/repositories/$DOCKER_IMAGE_NAME/tags | jq .results)
-DOCKER_IMAGE_TAG_SIZE=$(echo $DOCKER_IMAGE_TAGS | jq length)
-
-for (( i=0; i<$DOCKER_IMAGE_TAG_SIZE; i++ ))
-do
-  _TAG=$(echo $DOCKER_IMAGE_TAGS | jq .[$i] | jq .name | jq -r)
-  if [[ $_TAG == "latest" ]];
-    then
-      continue
-  elif [[ $_TAG == $DOCKER_IMAGE_VERSION ]];
-    then
-      echo -e "${YELLOW}Image $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_VERSION already exists. Aborting...${NC}"
-      exit 0
-  fi
-done
-echo -e "${LIGHT_BLUE}Image $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_VERSION has not been published. Proceeding...${NC}"
-
-# Check if the image `legend-shared-server` is on the latest version. If not, throw error.
-SERVER_IMAGE_NAME="finos/legend-shared-server"
-ESCAPED_SERVER_IMAGE_NAME=$(echo $SERVER_IMAGE_NAME | sed 's/\//\\\//g')
-SERVER_IMAGE_VERSION=$(cat $DIR/../Dockerfile | grep "^FROM $SERVER_IMAGE_NAME:\(.*\)$" | sed -e "s/FROM $ESCAPED_SERVER_IMAGE_NAME://")
-SERVER_IMAGE_TAGS=$(curl --silent https://registry.hub.docker.com/v2/repositories/$SERVER_IMAGE_NAME/tags | jq .results)
-SERVER_IMAGE_TAG_SIZE=$(echo $SERVER_IMAGE_TAGS | jq length)
-
-for (( i=0; i<$SERVER_IMAGE_TAG_SIZE; i++ ))
-do
-  _TAG=$(echo $SERVER_IMAGE_TAGS | jq .[$i] | jq .name | jq -r)
-  if [[ $_TAG == "latest" ]];
-    then
-      continue
-  elif [[ $_TAG == $SERVER_IMAGE_VERSION ]];
-    then
-      echo -e "${LIGHT_BLUE}Server image $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_VERSION is already up-to-date. Proceeding...${NC}"
-      break
-  else
-    echo -e "${RED}Server image $SERVER_IMAGE_NAME:$SERVER_IMAGE_VERSION is not up-to-date. Please update to the latest $SERVER_IMAGE_NAME:$_TAG. Aborting...${NC}"
-    exit 1
-  fi
-done
-
-# Login to Docker Hub
-#
-# NOTE: Apparently, we cannot call `docker login ...` from `github-actions` pipeline
-# as we will get the error: Cannot perform an interactive login from a non TTY device.
-# so we will use `docker/login-action`, if we run this script manually, make sure we
-# login beforehand.
-
-# Build Docker image
-echo -e "${LIGHT_BLUE}Building image $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_VERSION ...${NC}"
-docker build --quiet --tag $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_VERSION $DIR/../
-
 # Push Docker image
 echo -e "${LIGHT_BLUE}Pushing image $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_VERSION to Docker Hub...${NC}"
 docker push --quiet $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_VERSION
