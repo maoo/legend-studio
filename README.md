@@ -1,6 +1,7 @@
 [![FINOS - Incubating](https://cdn.jsdelivr.net/gh/finos/contrib-toolbox@master/images/badge-incubating.svg)](https://finosfoundation.atlassian.net/wiki/display/FINOS/Incubating)
 ![legend-build](https://github.com/finos/legend-studio/actions/workflows/node-ci.yml/badge.svg)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=legend-studio&metric=security_rating&token=1649412014267d7d7a6833643cb3133afe0137b0)](https://sonarcloud.io/dashboard?id=legend-studio)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fmaoo%2Flegend-studio.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fmaoo%2Flegend-studio?ref=badge_shield)
 
 # legend-studio
 
@@ -53,3 +54,6 @@ Copyright (c) 2020-present, Goldman Sachs
 Distributed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
 
 SPDX-License-Identifier: [Apache-2.0](https://spdx.org/licenses/Apache-2.0)
+
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fmaoo%2Flegend-studio.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fmaoo%2Flegend-studio?ref=badge_large)
