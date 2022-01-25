@@ -1,5 +1,11 @@
 # @finos/legend-studio
 
+## 2.4.0
+
+### Minor Changes
+
+- [#778](https://github.com/finos/legend-studio/pull/778) [`b8ee4134`](https://github.com/finos/legend-studio/commit/b8ee4134b62ddfde08993b9d4a327f2f2c5e0d8e) ([@MauricioUyaguari](https://github.com/MauricioUyaguari)) - Show `Workflow Manager` in viewer mode.
+
 ## 2.3.2
 
 ## 2.3.1
